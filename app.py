@@ -2,16 +2,29 @@ import streamlit as st
 
 st.set_page_config(page_title="Main Menu", layout="centered")
 
-# ========= Display Image =========
-st.image("604666275_122204317928499086_8891459876267880658_n.jpg", use_column_width=True)   # غيّر اسم الصورة لو غير كده
+# ======= Custom Button Style =======
+button_style = """
+<style>
+div.stButton > button {
+    background-color: black;
+    color: white;
+    padding: 15px 40px;
+    font-size: 22px;
+    border-radius: 10px;
+    width: 100%;
+}
+div.stButton > button:hover {
+    background-color: #333333;
+    color: white;
+}
+</style>
+"""
+st.markdown(button_style, unsafe_allow_html=True)
 
-# ========= Start Button =========
-start = st.button("START")
+# ======= If user already pressed START → show menu only =======
+if st.session_state.get("started", False):
 
-# ========= Main Menu After Start =========
-if start:
-    st.subheader("Main Menu")
-    st.write("اختر صفحة:")
+    st.title("Main Menu")
 
     col1, col2 = st.columns(2)
 
@@ -29,22 +42,23 @@ if start:
         if st.button("🛒 صفحة المبيعات"):
             st.session_state["page"] = "sales"
 
-# ========= Page Router =========
+else:
+    # ======= Show Image + Start Button (before starting) =======
+    st.image("604666275_122204317928499086_8891459876267880658_n.jpg", use_column_width=True)
+
+    col1, col2, col3 = st.columns(3)
+    with col2:
+        if st.button("START"):
+            st.session_state["started"] = True
+            st.rerun()
+
+# ======= Page Content =======
 if "page" in st.session_state:
-    page = st.session_state["page"]
-
-    if page == "suppliers":
+    if st.session_state["page"] == "suppliers":
         st.title("📦 صفحة الموردين")
-        st.write("محتوى صفحة الموردين هنا...")
-
-    elif page == "inventory":
+    elif st.session_state["page"] == "inventory":
         st.title("🏪 صفحة المخزن")
-        st.write("محتوى صفحة المخزن هنا...")
-
-    elif page == "sales":
+    elif st.session_state["page"] == "sales":
         st.title("🛒 صفحة المبيعات")
-        st.write("محتوى صفحة المبيعات هنا...")
-
-    elif page == "accounts":
+    elif st.session_state["page"] == "accounts":
         st.title("💰 صفحة الحسابات")
-        st.write("محتوى صفحة الحسابات هنا...")
