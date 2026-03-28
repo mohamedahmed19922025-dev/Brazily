@@ -27,10 +27,7 @@ st.set_page_config(
 st.markdown("""
 <style>
     /* إخفاء عناصر Streamlit الافتراضية */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    
+
     /* تنسيق الأزرار */
     .stButton > button {
         width: 100%;
